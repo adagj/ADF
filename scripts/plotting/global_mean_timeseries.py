@@ -36,7 +36,7 @@ def global_mean_timeseries(adfobj):
         ref_ts_da = adfobj.data.load_reference_timeseries_da(field)
         if ref_ts_da is None:
             print(
-                f"\t Variable named {field} provides None type. Not working with this script"
+                f"\t Variable named {field} provides Nonetype. Skipping this variable"
             )
             continue
         # check if this is a "2-d" varaible:

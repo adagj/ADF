@@ -6,6 +6,7 @@ from I. Simpson's directory (to be generalized).
 from pathlib import Path
 import warnings  # use to warn user about missing files.
 import xarray as xr
+import numpy as np
 import matplotlib.pyplot as plt
 import plotting_functions as pf
 
@@ -26,6 +27,9 @@ def global_mean_timeseries(adfobj):
     Make a combined plot, save it, add it to website.
     Include the CESM2 LENS result if it can be found.
     """
+    emislist = ["SFmonoterp","SFisoprene","SFSS","SFDUST", "SFSOA", "SFSO4", "SFSO2_net", "SFOM", "SFBC", "SFDMS", "SFH2O2","SFH2SO4"]
+    cblist=["cb_SULFATE","cb_isoprene","cb_monoterp","cb_DUST","cb_DMS","cb_BC","cb_OM","cb_H2O2","cb_H2SO4","cb_SALT", "cb_SO2"]
+    emicblist = emislist + cblist
 
     plot_loc = get_plot_loc(adfobj)
 
@@ -33,31 +37,51 @@ def global_mean_timeseries(adfobj):
     
     res = adfobj.variable_defaults
 
-    for field in adfobj.diag_var_list:
-        # reference time series (DataArray)
-        ref_ts_da = adfobj.data.load_reference_timeseries_da(field)
-        if ref_ts_da is None:
-            print(
-                f"\t Variable named {field} provides Nonetype. Skipping this variable"
-            )
+    for var in adfobj.diag_var_list:
+        #  can't  use this since it is applying correction and scale factors
+        #ref_ts_da =  adfobj.data.load_reference_timeseries_da(var)
+        ts_files = adfobj.data.get_ref_timeseries_file(var)#
+        # If no files exist, try to move to next variable. --> Means we can not proceed with this variable, and it'll be problematic later.
+        if not ts_files:
+            errmsg = f"Time series files for variable '{var}' not found.  Script will continue to next variable."
+            warnings.warn(errmsg)
             continue
+        #End if
+
+        #TEMPORARY:  For now, make sure only one file exists:
+        if len(ts_files) != 1:
+            errmsg =  "Currently the AMWG table script can only handle one time series file per variable."
+            errmsg += f" Multiple files were found for the variable '{var}', so it will be skipped."
+            print(errmsg)
+            continue
+        #End if
+
+        #Load model variable data from file:
+        ds = pf.load_dataset(ts_files)
+        ref_ts_da = ds[var]
+        
         # check if this is a "2-d" varaible:
         has_lat_ref, has_lev_ref = pf.zm_validate_dims(ref_ts_da)
         if has_lev_ref:
             print(
-                f"\t Variable named {field} has a lev dimension, which does not work with this script."
+                f"\t Variable named {var} has a lev dimension, which does not work with this script."
             )
             continue
 
+        if var in emislist:
+            ref_ts_da = surface_emission(ref_ts_da)
+        elif var in cblist:
+            ref_ts_da_ga = column_burden(ref_ts_da)
         # reference time series global average
-        ref_ts_da_ga = pf.spatial_average(ref_ts_da, weights=None, spatial_dims=None)
-
+        else:
+            ref_ts_da_ga = pf.spatial_average(ref_ts_da, weights=None, spatial_dims=None)
         # annually averaged
-        ref_ts_da = pf.annual_mean(ref_ts_da_ga, whole_years=True, time_name="time")
-
+        if var not in emislist:
+            ref_ts_da = pf.annual_mean(ref_ts_da_ga, whole_years=True, time_name="time")
+       
         ## SPECIAL SECTION -- CESM2 LENS DATA:
         lens2_data = Lens2Data(
-            field
+            var
         )  # Provides access to LENS2 dataset when available (class defined below)
 
         # Loop over model cases:
@@ -69,28 +93,57 @@ def global_mean_timeseries(adfobj):
                 adfobj.data.test_nicknames, adfobj.data.case_names
             )
         }
+
         ref_label = (
             adfobj.data.ref_nickname
             if adfobj.data.ref_nickname
             else adfobj.data.ref_case_label
         )
         for case_name in adfobj.data.case_names:
-            c_ts_da = adfobj.data.load_timeseries_da(case_name, field)
-            c_ts_da_ga = pf.spatial_average(c_ts_da)
-            case_ts[labels[case_name]] = pf.annual_mean(c_ts_da_ga)
+            # c_ts_da = adfobj.data.load_timeseries_da(case_name, var) applies correctlin factor
+            c_ts_files = adfobj.data.get_timeseries_file(case_name, var) #get_ref_timeseries_file(var)#
+            # If no files exist, try to move to next variable. --> Means we can not proceed with this variable, and it'll be problematic later.
+            if not c_ts_files:
+                errmsg = f"Time series files for case: {case_name} and variable '{var}' not found.  Script will continue to next variable."
+                warnings.warn(errmsg)
+                continue
+            #End if
+
+            #TEMPORARY:  For now, make sure only one file exists:
+            if len(c_ts_files) != 1:
+                errmsg =  "Currently the AMWG table script can only handle one time series file per variable."
+                errmsg += f" Multiple files were found for case: {case_name} and the variable '{var}', so it will be skipped."
+                print(errmsg)
+                continue
+            #End if
+
+            #Load model variable data from file:
+            _ds = pf.load_dataset(c_ts_files)
+            c_ts_da = _ds[var]
+            if var in emislist:
+                c_ts_da_ga = surface_emission(c_ts_da)
+            elif var in cblist:
+                c_ts_da_ga = column_burden(c_ts_da)
+            # reference time series global average
+            else:
+                c_ts_da_ga = pf.spatial_average(c_ts_da, weights=None, spatial_dims=None)
+            # annually averaged
+            if var not in emislist:
+                c_ts_da_ga = pf.annual_mean(c_ts_da_ga, whole_years=True, time_name="time")
+            case_ts[labels[case_name]] = c_ts_da_ga
         # now have to plot the timeseries
         fig, ax = make_plot(
             ref_ts_da, case_ts, lens2_data, label=adfobj.data.ref_nickname
         )
         ax.set_ylabel(getattr(ref_ts_da,"units", "[-]")) # add units
-        plot_name = plot_loc / f"{field}_GlobalMean_ANN_TimeSeries_Mean.{plot_type}"
+        plot_name = plot_loc / f"{var}_GlobalMean_ANN_TimeSeries_Mean.{plot_type}"
 
         conditional_save(adfobj, plot_name, fig)
         
-        if field in res:
-            vres = res[field]
+        if var in res:
+            vres = res[var]
             #If found then notify user, assuming debug log is enabled:
-            adfobj.debug_log(f"global_latlon_map: Found variable defaults for {field}")
+            adfobj.debug_log(f"global_latlon_map: Found variable defaults for {var}")
 
             #Extract category (if available):
             web_category = vres.get("category", None)
@@ -101,7 +154,7 @@ def global_mean_timeseries(adfobj):
 
         adfobj.add_website_data(
             plot_name,
-            f"{field}_GlobalMean",
+            f"{var}_GlobalMean",
             None,
             category=web_category,
             season="ANN",
@@ -109,6 +162,25 @@ def global_mean_timeseries(adfobj):
             plot_type="TimeSeries",
         )
 
+def column_burden(_data):
+    _area =  _get_area(_data)
+    _data = (_data*_area).sum(dim={"lon","lat"})
+    _data = 1e-9* _data
+    _data.attrs['units'] = " Tg"
+    return _data
+
+def surface_emission(_data):
+    _area =  _get_area(_data)
+    _data = (_data*_area).sum(dim={"lon","lat"})
+    # this provides the seconds in months in each year
+    # -- do it for each year to allow for non-standard calendars (360-day)
+    # -- and also to provision for data with leap years
+    _days_gb = _data.time.dt.daysinmonth
+    # weighted average with normalized weights: <x> = SUM x_i * w_i  (implied division by SUM w_i)
+    _data=  (_data * _days_gb).groupby('time.year').sum(dim='time')
+    _data = 1e-9*86400 * _data
+    _data.attrs['units'] = " Tg/yr"
+    return _data
 
 def conditional_save(adfobj, plot_name, fig, verbose=None):
     """Determines whether to save figure"""
@@ -165,19 +237,19 @@ def get_plot_loc(adfobj, verbose=None):
 class Lens2Data:
     """Access Isla's LENS2 data to get annual means."""
 
-    def __init__(self, field):
-        self.field = field
+    def __init__(self, var):
+        self.var= var
         self.has_lens, self.lens2 = self._include_lens()
 
     def _include_lens(self):
         lens2_fil = Path(
-            f"/glade/campaign/cgd/cas/islas/CESM_DATA/LENS2/global_means/annualmeans/{self.field}_am_LENS2_first50.nc"
+            f"/glade/campaign/cgd/cas/islas/CESM_DATA/LENS2/global_means/annualmeans/{self.var}_am_LENS2_first50.nc"
         )
         if lens2_fil.is_file():
             lens2 = xr.open_mfdataset(lens2_fil)
             has_lens = True
         else:
-            warnings.warn(f"Time Series: Did not find LENS2 file for {self.field}.")
+            warnings.warn(f"Time Series: Did not find LENS2 file for {self.var}.")
             has_lens = False
             lens2 = None
         return has_lens, lens2
@@ -185,18 +257,18 @@ class Lens2Data:
 
 def make_plot(ref_ts_da, case_ts, lens2, label=None):
     """plot yearly values of ref_ts_da"""
-    field = lens2.field  # this will be defined even if no LENS2 data
+    var= lens2.var # this will be defined even if no LENS2 data
     fig, ax = plt.subplots()
     ax.plot(ref_ts_da.year, ref_ts_da, label=label)
     for c, cdata in case_ts.items():
         ax.plot(cdata.year, cdata, label=c)
     if lens2.has_lens:
-        lensmin = lens2.lens2[field].min("M")  # note: "M" is the member dimension
-        lensmax = lens2.lens2[field].max("M")
+        lensmin = lens2.lens2[var].min("M")  # note: "M" is the member dimension
+        lensmax = lens2.lens2[var].max("M")
         ax.fill_between(lensmin.year, lensmin, lensmax, color="lightgray", alpha=0.5)
         ax.plot(
-            lens2.lens2[field].year,
-            lens2.lens2[field].mean("M"),
+            lens2.lens2[var].year,
+            lens2.lens2[var].mean("M"),
             color="darkgray",
             linewidth=2,
             label="LENS2",
@@ -206,7 +278,7 @@ def make_plot(ref_ts_da, case_ts, lens2, label=None):
     # Check if the y-axis crosses zero
     if ymin < 0 < ymax:
         ax.axhline(y=0, color="lightgray", linestyle="-", linewidth=1)
-    ax.set_title(field, loc="left")
+    ax.set_title(var, loc="left")
     ax.set_xlabel("YEAR")
     # Place the legend
     ax.legend(
@@ -215,3 +287,32 @@ def make_plot(ref_ts_da, case_ts, lens2, label=None):
     plt.tight_layout(pad=2, w_pad=1.0, h_pad=1.0)
 
     return fig, ax
+
+##################
+# Helper functions
+##################
+def _get_area(tmp_file):
+    """
+    This function retrieves the files, latitude, and longitude information
+    in all the directories within the chosen dates.
+    """
+    Earth_rad=6.371e6 # Earth Radius in meters
+
+    lon = tmp_file['lon'].data
+    lon[lon > 180.] -= 360 # shift longitude from 0-360˚ to -180-180˚
+    lat = tmp_file['lat'].data
+
+   
+    dlon = np.abs(lon[1]-lon[0])
+    dlat = np.abs(lat[1]-lat[0])
+
+    lon2d,lat2d = np.meshgrid(lon,lat)
+            
+    dy = Earth_rad*dlat*np.pi/180
+    dx = Earth_rad*np.cos(lat2d*np.pi/180)*dlon*np.pi/180
+
+    _area = dx*dy
+    # End if
+
+    # Variables to return
+    return _area

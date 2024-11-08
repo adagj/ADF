@@ -151,7 +151,7 @@ diag_cam_climo:
     cam_overwrite_climo: true
 
     #Name of CAM case (or CAM run name):
-    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.202401007
+    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.202401031
 
     #Case nickname
     #NOTE: if nickname starts with '0' - nickname must be in quotes!
@@ -169,12 +169,12 @@ diag_cam_climo:
     #model year when time series files should start:
     #Note:  Leaving this entry blank will make time series
     #       start at earliest available year.
-    start_year: 5
+    start_year: 1
 
     #model year when time series files should end:
     #Note:  Leaving this entry blank will make time series
     #       end at latest available year.
-    end_year: 8
+    end_year: 20
     
     #Do time series files exist?
     #If True, then diagnostics assumes that model files are already time series.
@@ -204,7 +204,7 @@ diag_cam_baseline_climo:
     # eg. cam.h0 or ocn.pop.h.ecosys.nday1 or hist_str: [cam.h2,cam.h0]  
     # Only affects timeseries as everything else uses the created timeseries 
     # Default: 
-    hist_str: cam.h0 #cam.h0a
+    hist_str: cam.h0a #cam.h0a
 
     #Calculate cam baseline climatologies?
     #If false, the climatology files will not be created:
@@ -215,7 +215,7 @@ diag_cam_baseline_climo:
     cam_overwrite_climo: true
 
     #Name of CAM baseline case:
-    cam_case_name: N1850frc2_f09_tn14_20191001 #n1850.ne30_tn14.hybrid.20240829 #
+    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.202401007 #N1850frc2_f09_tn14_20191001 #n1850.ne30_tn14.hybrid.20240829 #
 
     #Baseline case nickname
     #NOTE: if nickname starts with '0' - nickname must be in quotes!
@@ -225,7 +225,7 @@ diag_cam_baseline_climo:
 
     #Location of CAM baseline history (h0a) files:
     #Example test files
-    cam_hist_loc: /projects/NS9560K-datalake/noresm/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
+    cam_hist_loc: /projects/NS9560K-datalake/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
     
     #/projects/NS9560K-datalake/noresm/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
     #/projects/NS9560K-datalake/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
@@ -236,12 +236,12 @@ diag_cam_baseline_climo:
     #model year when time series files should start:
     #Note:  Leaving this entry blank will make time series
     #       start at earliest available year.
-    start_year: 1204
+    start_year: 1 #1209
 
     #model year when time series files should end:
     #Note:  Leaving this entry blank will make time series
     #       end at latest available year.
-    end_year: 1207
+    end_year: 20 #1219
 
     #Do time series files need to be generated?
     #If True, then diagnostics assumes that model files are already time series.
@@ -312,89 +312,90 @@ regridding_scripts:
 #List of analysis scripts being used.
 #These scripts must be located in "scripts/analysis":
 analysis_scripts:
-    - amwg_table
+    #- amwg_table
 
 #List of plotting scripts being used.
 #These scripts must be located in "scripts/plotting":
 plotting_scripts:
-    #- global_latlon_map
-    #- zonal_mean
-    #- meridional_mean
-    #- polar_map
-    #- global_latlon_vect_map
-    #- cam_taylor_diagram
-    #- qbo
+    - global_mean_timeseries
+   # - global_latlon_map
+   # - zonal_mean
+   # - meridional_mean
+   # - polar_map
+   # - global_latlon_vect_map
+   # - cam_taylor_diagram
+   # - qbo
    #- tape_recorder
    #- tem #To plot TEM, please un-comment fill-out the "tem_info" section below
 
 #List of CAM variables that will be processesd:
 #If CVDP is to be run PSL, TREFHT, TS and PRECT (or PRECC and PRECL) should be listed
 diag_var_list:
-    # - AODVIS
-    # - cb_SULFATE
-    # - cb_isoprene
-    # - cb_monoterp
-    # - cb_DUST
-    # - cb_DMS
-    # - cb_BC
-    # - cb_OM
-    # - cb_H2O2
-    # - cb_H2SO4
-    # - cb_SALT
-    # - SFmonoterp
+    - AODVIS
+    - cb_SULFATE
+    - cb_isoprene
+    - cb_monoterp
+    - cb_DUST
+    - cb_DMS
+    - cb_BC
+    - cb_OM
+    - cb_H2O2
+    - cb_H2SO4
+    - cb_SALT
+    - SFmonoterp
     - SFisoprene
     - SFSS
     - SFDUST
-    # - SFSOA
-    # - SFSO4
-    # - SFSO2_net
-    # - SFOM
-    # - SFBC
-    # - SFDMS
-    # - SFH2O2
-    # - SFH2SO4
-    # - cb_SO2
-   # - D550_BC
-   # - D550_DU
-   # - D550_POM
-   # - D550_SO4
-   # - D550_SS
-    # - CLDHGH
-    # - CLDICE
-    # - CLDLIQ
-    # - CLDLOW
-    # - CLDMED
-    # - CLDTOT
-    # - CLOUD
-    # - RESTOM
-    # - FLNS
-    # - FLNT
-    # - FLNTC
-    # - FSNS
-    # - FSNT
-    # - FSNTC
-    # - LHFLX
-    # - LWCF
-    # - OMEGA500
-    # - PBLH
-    # - PRECT
-    # - PS
-    # - PSL
-    # - QFLX
-    # - RELHUM
-    # - SHFLX
-    # - SST
-    # - SWCF
-    # - T
-    # - TAUX
-    # - TAUY
-    # - TGCLDIWP
-    # - TGCLDLWP
-    # - TMQ
-    # - TREFHT
-    # - TS
-    # - U
-    # - U10
+    - SFSOA
+    - SFSO4
+    - SFSO2_net
+    - SFOM
+    - SFBC
+    - SFDMS
+    - SFH2O2
+    - SFH2SO4
+    - cb_SO2
+    - D550_BC
+    - D550_DU
+    - D550_POM
+    - D550_SO4
+    - D550_SS
+    - CLDHGH
+    - CLDICE
+    - CLDLIQ
+    - CLDLOW
+    - CLDMED
+    - CLDTOT
+    - CLOUD
+    - RESTOM
+    - FLNS
+    - FLNT
+    - FLNTC
+    - FSNS
+    - FSNT
+    - FSNTC
+    - LHFLX
+    - LWCF
+    - OMEGA500
+    - PBLH
+    - PRECT
+    - PS
+    - PSL
+    - QFLX
+    - RELHUM
+    - SHFLX
+    - SST
+    - SWCF
+    - T
+    - TAUX
+    - TAUY
+    - TGCLDIWP
+    - TGCLDLWP
+    - TMQ
+    - TREFHT
+    - TS
+    - U
+    - U10
     # - ICEFRAC
     # - OCNFRAC
     # - LANDFRAC

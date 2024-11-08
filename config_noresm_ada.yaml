@@ -331,35 +331,35 @@ plotting_scripts:
 #List of CAM variables that will be processesd:
 #If CVDP is to be run PSL, TREFHT, TS and PRECT (or PRECC and PRECL) should be listed
 diag_var_list:
-    # - AODVIS
-    # - cb_SULFATE
-    # - cb_isoprene
-    # - cb_monoterp
-    # - cb_DUST
-    # - cb_DMS
-    # - cb_BC
-    # - cb_OM
-    # - cb_H2O2
-    # - cb_H2SO4
-    # - cb_SALT
-    # - SFmonoterp
-    # - SFisoprene
-    # - SFSS
-    # - SFDUST
-    # - SFSOA
-    # - SFSO4
-    # - SFSO2_net
-    # - SFOM
-    # - SFBC
-    # - SFDMS
-    # - SFH2O2
-    # - SFH2SO4
-    # - cb_SO2
-    # - D550_BC
-    # - D550_DU
-    # - D550_POM
-    # - D550_SO4
-    # - D550_SS
+    - AODVIS
+    - cb_SULFATE
+    - cb_isoprene
+    - cb_monoterp
+    - cb_DUST
+    - cb_DMS
+    - cb_BC
+    - cb_OM
+    - cb_H2O2
+    - cb_H2SO4
+    - cb_SALT
+    - SFmonoterp
+    - SFisoprene
+    - SFSS
+    - SFDUST
+    - SFSOA
+    - SFSO4
+    - SFSO2_net
+    - SFOM
+    - SFBC
+    - SFDMS
+    - SFH2O2
+    - SFH2SO4
+    - cb_SO2
+    - D550_BC
+    - D550_DU
+    - D550_POM
+    - D550_SO4
+    - D550_SS
     - CLDHGH
     - CLDICE
     - CLDLIQ
@@ -373,29 +373,29 @@ diag_var_list:
     - FLNTC
     - FSNS
     - FSNT
-    # - FSNTC
-    # - LHFLX
-    # - LWCF
-    # - OMEGA500
-    # - PBLH
-    # - PRECT
-    # - PS
-    # - PSL
-    # - QFLX
-    # - RELHUM
-    # - SHFLX
-    # - SST
-    # - SWCF
-    # - T
-    # - TAUX
-    # - TAUY
-    # - TGCLDIWP
-    # - TGCLDLWP
-    # - TMQ
-    # - TREFHT
-    # - TS
-    # - U
-    # - U10
+    - FSNTC
+    - LHFLX
+    - LWCF
+    - OMEGA500
+    - PBLH
+    - PRECT
+    - PS
+    - PSL
+    - QFLX
+    - RELHUM
+    - SHFLX
+    - SST
+    - SWCF
+    - T
+    - TAUX
+    - TAUY
+    - TGCLDIWP
+    - TGCLDLWP
+    - TMQ
+    - TREFHT
+    - TS
+    - U
+    - U10
     # - ICEFRAC
     # - OCNFRAC
     # - LANDFRAC

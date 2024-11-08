@@ -30,6 +30,8 @@ def global_mean_timeseries(adfobj):
     plot_loc = get_plot_loc(adfobj)
 
     plot_type = adfobj.read_config_var("diag_basic_info").get("plot_type", "png")
+    
+    res = adfobj.variable_defaults
 
     for field in adfobj.diag_var_list:
         # reference time series (DataArray)
@@ -84,11 +86,24 @@ def global_mean_timeseries(adfobj):
         plot_name = plot_loc / f"{field}_GlobalMean_ANN_TimeSeries_Mean.{plot_type}"
 
         conditional_save(adfobj, plot_name, fig)
+        
+        if field in res:
+            vres = res[field]
+            #If found then notify user, assuming debug log is enabled:
+            adfobj.debug_log(f"global_latlon_map: Found variable defaults for {field}")
+
+            #Extract category (if available):
+            web_category = vres.get("category", None)
+
+        else:
+            vres = {}
+            web_category = None
 
         adfobj.add_website_data(
             plot_name,
             f"{field}_GlobalMean",
             None,
+            category=web_category,
             season="ANN",
             multi_case=True,
             plot_type="TimeSeries",

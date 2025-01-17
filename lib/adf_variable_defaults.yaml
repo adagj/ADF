@@ -929,6 +929,11 @@ TREFHT:
   obs_file: "TREFHT_ERA5_monthly_climo_197901-202112.nc"
   obs_name: "ERA5"
   obs_var_name: "TREFHT"
+  contour_levels_range: [220,320, 5]
+  diff_contour_range: [-10, 10, 1]
+  scale_factor: 1
+  add_offset: 0
+  new_unit: "K"
 
 TS:
   colormap: "Blues"

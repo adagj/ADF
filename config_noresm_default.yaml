@@ -13,6 +13,10 @@
 #or with a different, non-example simulation, will
 #require additional modifications.
 #
+# On sigma2 NIRD, please see the discussion on github
+# https://github.com/NorESMhub/noresm3_dev_simulations/discussions/17
+# for details
+#
 #Config file Keywords:
 #--------------------
 #
@@ -48,7 +52,7 @@
 #names, as this will likely cause issues with the current file parsing
 #system.
 #--------------------
-user: 'adagj'
+user: 'your_user_name'
 #
 ##==============================
 #
@@ -85,7 +89,7 @@ diag_basic_info:
     #Location of observational datasets:
     #Note: this only matters if "compare_obs" is true and the path
     #isn't specified in the variable defaults file.
-    obs_data_loc: /projects/NS9560K/mvertens/obs_data/ADF_obs
+    obs_data_loc: /projects/NS9560K/diagnostics/ADF/obs/
 
     #Location where re-gridded and interpolated CAM climatology files are stored:
     cam_regrid_loc: /projects/NS2345K-datalake/adagj/ADFout/regrid
@@ -96,9 +100,7 @@ diag_basic_info:
     cam_overwrite_regrid: false
 
     #Location where diagnostic plots are stored:
-    #cam_diag_plot_loc: /projects/NS9560K/www/diagnostics/noresm/mvertens/ADF/plots
     cam_diag_plot_loc: /projects/NS2345K-datalake/www/diagnostics/ADF/plots
-    #cam_diag_plot_loc: /projects/NS2345K-datalake/adagj/ADFout/plots
 
     #Location of ADF variable plotting defaults YAML file:
     #If left blank or missing, ADF/lib/adf_variable_defaults.yaml will be used
@@ -151,8 +153,8 @@ diag_cam_climo:
     cam_overwrite_climo: true
 
     #Name of CAM case (or CAM run name):
-    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.202401031
-
+    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.20241219
+  
     #Case nickname
     #NOTE: if nickname starts with '0' - nickname must be in quotes!
     # ie '026a' as opposed to 026a
@@ -162,7 +164,7 @@ diag_cam_climo:
     #Location of CAM history (h0a) files:
     #Example test files
     cam_hist_loc: /projects/NS9560K-datalake/noresm3/cases/${diag_cam_climo.cam_case_name}/atm/hist
-
+    
     #Location of CAM climatologies (to be created and then used by this script)
     cam_climo_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
 
@@ -174,7 +176,7 @@ diag_cam_climo:
     #model year when time series files should end:
     #Note:  Leaving this entry blank will make time series
     #       end at latest available year.
-    end_year: 20
+    end_year: 4
     
     #Do time series files exist?
     #If True, then diagnostics assumes that model files are already time series.
@@ -184,7 +186,7 @@ diag_cam_climo:
 
     #Save interim time series files?
     #WARNING:  This can take up a significant amount of space,
-       #          but will save processing time the next time
+    #          but will save processing time the next time
     cam_ts_save: false
 
     #Overwrite time series files, if found?
@@ -192,7 +194,7 @@ diag_cam_climo:
     cam_overwrite_ts: false
 
     #Location where time series files are (or will be) stored:
-    cam_ts_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
+    cam_ts_loc: /projects/NS2345K-datalake/YOUR_NIRD_USERNAME/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
                     
 #-------------------------------------------------------------------------------------
 #This third set of variables provide info for the CAM baseline climatologies.
@@ -204,7 +206,7 @@ diag_cam_baseline_climo:
     # eg. cam.h0 or ocn.pop.h.ecosys.nday1 or hist_str: [cam.h2,cam.h0]  
     # Only affects timeseries as everything else uses the created timeseries 
     # Default: 
-    hist_str: cam.h0a #cam.h0a
+    hist_str: cam.h0a 
 
     #Calculate cam baseline climatologies?
     #If false, the climatology files will not be created:
@@ -215,7 +217,7 @@ diag_cam_baseline_climo:
     cam_overwrite_climo: true
 
     #Name of CAM baseline case:
-    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.202401007 #N1850frc2_f09_tn14_20191001 #n1850.ne30_tn14.hybrid.20240829 #
+    cam_case_name: n1850.ne30_tn14.hybrid_fatessp.20241204
 
     #Baseline case nickname
     #NOTE: if nickname starts with '0' - nickname must be in quotes!
@@ -226,9 +228,6 @@ diag_cam_baseline_climo:
     #Location of CAM baseline history (h0a) files:
     #Example test files
     cam_hist_loc: /projects/NS9560K-datalake/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
-    
-    #/projects/NS9560K-datalake/noresm/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
-    #/projects/NS9560K-datalake/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
 
     #Location of baseline CAM climatologies:
     cam_climo_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
@@ -236,12 +235,12 @@ diag_cam_baseline_climo:
     #model year when time series files should start:
     #Note:  Leaving this entry blank will make time series
     #       start at earliest available year.
-    start_year: 1 #1209
+    start_year: 52
 
     #model year when time series files should end:
     #Note:  Leaving this entry blank will make time series
     #       end at latest available year.
-    end_year: 20 #1219
+    end_year: 71
 
     #Do time series files need to be generated?
     #If True, then diagnostics assumes that model files are already time series.
@@ -258,7 +257,7 @@ diag_cam_baseline_climo:
     cam_overwrite_ts: false
 
     #Location where time series files are (or will be) stored:
-    cam_ts_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
+    cam_ts_loc: /projects/NS2345K-datalake/YOUR_NIRD_USERNAME/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
 
 #-------------------------------------------------------------------------------------
 #This fourth set of variables provides settings for calling the Climate Variability

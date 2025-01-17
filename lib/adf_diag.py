@@ -1142,8 +1142,6 @@ class AdfDiag(AdfWeb):
         whether to overwrite the file (true) or exit with a warning message.
 
         """
-        #print(f'ADA basename self: {self.get_baseline_info("cam_case_name")}')
-        #print(f'ADA case namse self: {self.get_cam_info("cam_case_name")[0]}')
         start_years = self.climo_yrs["syears"]
         start_years = str(start_years[0]).zfill(4)
         end_years = self.climo_yrs["eyears"]
@@ -1153,10 +1151,7 @@ class AdfDiag(AdfWeb):
         for var in vars_to_derive:
             print(f"\t - deriving time series for {var}")
             filename = f'{self.get_cam_info("cam_case_name")[0]}.{hist_str}*.{var}.{date_range_string_case}.nc'
-            #print(f'ADA: FILENAME: {filename}, and {os.path.join(ts_dir, filename)}')
-            #print(f'ADA: glob glob {glob.glob(os.path.join(ts_dir, filename))}')
             if glob.glob(os.path.join(ts_dir, filename)):
-                print(f'ADA: Case filename exists: {filename}. Calculate baseline experiment:')
                 expname = f'{self.get_baseline_info("cam_case_name")}'
                 start_years = self.climo_yrs["syear_baseline"]
                 start_years = str(start_years).zfill(4)
@@ -1166,7 +1161,6 @@ class AdfDiag(AdfWeb):
             else: 
                 expname = f'{self.get_cam_info("cam_case_name")[0]}'
                 date_range_string = date_range_string_case
-            print(f'ADA: EXPname: {expname}')
             # Grab list of constituents for this variable
             constit_list = constit_dict[var]
 
@@ -1181,7 +1175,6 @@ class AdfDiag(AdfWeb):
                 # end if
                 if glob.glob(os.path.join(ts_dir, const_glob_str)):
                     constit_files.append(glob.glob(os.path.join(ts_dir, const_glob_str ))[0])
-            print(f'ADA: print consist files: {constit_files}')
             # Check if all the necessary constituent files were found
             if len(constit_files) != len(constit_list):
                 ermsg = f"\t   ** Not all constituent files present; {var} cannot be calculated."

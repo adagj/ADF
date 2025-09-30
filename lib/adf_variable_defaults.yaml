@@ -466,6 +466,7 @@ DMS:
       label : '$\mu$g/m3'
   category: "Aerosols"
 
+
 SO2:
   colormap: "cubehelix_r"
   diff_colormap: "BrBG"
@@ -502,6 +503,19 @@ H2SO4:
 SOAG:
   category: "Aerosols"
 
+sum_BC:
+  colormap: "cubehelix_r"
+  #contour_levels_range: [0, 1.6, .1]
+  #diff_contour_range: [-.5, .6, .1]
+  diff_colormap: "BrBG"
+  scale_factor: 1000000000
+  add_offset: 0
+  new_unit: '$\mu$g/m3'
+  mpl:
+    colorbar:
+      label : '$\mu$g/m3'
+  category: "Aerosols"
+
 BC:
   colormap: "cubehelix_r"
   #contour_levels_range: [0, 1.6, .1]
@@ -529,7 +543,7 @@ POM:
       label : '$\mu$g/m3'
   category: "Aerosols"
   derivable_from: ["isoprene", "monoterp"]
-  derivable_from_cesm: ["pom_a1", "pom_a4"]
+  derivable_from_cesm: ["pom_a1", "pom_a4", "pom_c1", "pom_c4"]
 
 OM:
   colormap: "cubehelix_r"
@@ -542,6 +556,28 @@ OM:
       label : '$\mu$g/m3'
   category: "Aerosols"
   derivable_from: ["OM_AC", "OM_AC_OCW", "OM_AI_OCW", "OM_AI", "OM_NI", "OM_NI_OCW", "SO4_A1",  "SO4_NA", "SO4_A1_OCW",  "SO4_NA_OCW"]
+
+sum_OM:
+  colormap: "cubehelix_r"
+  diff_colormap: "BrBG"
+  scale_factor: 1000000000
+  add_offset: 0
+  new_unit: '$\mu$g/m3'
+  mpl:
+    colorbar:
+      label : '$\mu$g/m3'
+  category: "Aerosols"
+
+sum_SO4:
+  colormap: "cubehelix_r"
+  diff_colormap: "BrBG"
+  scale_factor: 1000000000
+  add_offset: 0
+  new_unit: '$\mu$g/m3'
+  mpl:
+    colorbar:
+      label : '$\mu$g/m3'
+  category: "Aerosols"
 
 SO4:
   colormap: "cubehelix_r"
@@ -557,6 +593,17 @@ SO4:
   derivable_from_cesm: ["so4_a1", "so4_a2", "so4_a3"]
   derivable_from_cam_chem: ["so4_a1", "so4_a2", "so4_a3", "so4_a5"]
 
+sum_SOA:
+  colormap: "cubehelix_r"
+  diff_colormap: "BrBG"
+  scale_factor: 1000000000
+  add_offset: 0
+  new_unit: '$\mu$g/m3'
+  mpl:
+    colorbar:
+      label : '$\mu$g/m3'
+  category: "Aerosols"
+
 SOA:
   colormap: "cubehelix_r"
   diff_colormap: "BrBG"
@@ -568,8 +615,19 @@ SOA:
       label : '$\mu$g/m3'
   category: "Aerosols"
   derivable_from: ["SOA_A1", "SOA_A1_OCW","SOA_LV", "SOA_NA", "SOA_NA_OCW", "SOA_SV"]
-  derivable_from_cesm: ["soa_a1", "soa_a2"]
+  derivable_from_cesm: ["soa_a1", "soa_a2", "soa_c1", "soa_c2"]
   derivable_from_cam_chem: ["soa1_a1", "soa2_a1", "soa3_a1", "soa4_a1", "soa5_a1", "soa1_a2", "soa2_a2", "soa3_a2", "soa4_a2", "soa5_a2"]
+
+sum_DST:
+  colormap: "cubehelix_r"
+  diff_colormap: "BrBG"
+  scale_factor: 1000000000
+  add_offset: 0
+  new_unit: '$\mu$g/m3'
+  mpl:
+    colorbar:
+      label : '$\mu$g/m3'
+  category: "Aerosols"
 
 DUST:
   colormap: "cubehelix_r"
@@ -584,7 +642,25 @@ DUST:
       label : '$\mu$g/m3'
   category: "Aerosols"
   derivable_from: ["DST_A2", "DST_A3", "DST_A2_OCW", "DST_A3_OCW"]
-  derivable_from_cesm: ["dst_a1", "dst_a2", "dst_a3"]
+  derivable_from_cesm: ["dst_a1", "dst_a2", "dst_a3", "dst_c1", "dst_c2", "dst_c3"]
+
+sum_SS:
+  colormap: "cubehelix_r"
+  contour_levels: [0,0.05,0.075,0.2,0.3,0.4,0.7,1,1.5,2,4,6,15,24,57,90]
+  non_linear: True
+  diff_colormap: "BrBG"
+  scale_factor: 1000000000
+  add_offset: 0
+  new_unit: '$\mu$g/m3'
+  mpl:
+    colorbar:
+      label : '$\mu$g/m3'
+      ticks: [0.05,0.2,0.4,1,2,6,24,90]
+    diff_colorbar:
+      label : '$\mu$g/m3'
+      ticks: [-10,8,6,4,2,0,-2,-4,-6,-8,-10]
+  category: "Aerosols"
+
 
 SeaSalt:
   colormap: "cubehelix_r"
@@ -619,6 +695,7 @@ SFSOA:
   new_unit: "1e-12 kg/m2/s"
   category: "Surface emissions"
   derivable_from: ["SFSOA_A1", "SFSOA_LV", "SFSOA_NA", "SFSOA_SV"]
+  derivable_from_cesm: ["SFSOAE"]
 
 SFSS:
   colormap: "Oranges"
@@ -630,6 +707,7 @@ SFSS:
   new_unit: "1e-12 kg/m2/s"
   category: "Surface emissions"
   derivable_from: ["SFSS_A1", "SFSS_A2", "SFSS_A3"]
+  derivable_from_cesm: ["ncl_a1SF", "ncl_a2SF", "ncl_a3SF"]
 
 SFBC:
   colormap: "Oranges"
@@ -640,7 +718,7 @@ SFBC:
   add_offset: 0
   new_unit: "1e-12 kg/m2/s"
   category: "Surface emissions"
-  derivable_from: ["SFBC_A","SFBC_AC","SFBC_AI","SFBC_AX","SFBC_N","SFBC_NI","BC_AX_CMXF","BC_NI_CMXF","BC_N_CMXF"]
+  derivable_from: ["SFBC_A","SFBC_AC","SFBC_AI","SFBC_AX","SFBC_N","SFBC_NI", "BC_AX_CMXF","BC_NI_CMXF","BC_N_CMXF"]
 
 SFH2O2:
   colormap: "Oranges"
@@ -688,13 +766,15 @@ SFDUST:
   contour_levels_range: [0, 5000, 500 ]
   #contour_levels: [1, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, 5000]
   diff_colormap: "PuOr_r"
-  log_normal: true 
+  #log_normal: true 
   diff_contour_range: [-600, 650, 50]
   scale_factor: 1000000000000
   add_offset: 0
   new_unit: "1e-12 kg/m2/s"
   category: "Surface emissions"
   derivable_from: [ "SFDST_A2", "SFDST_A3"]
+  derivable_from_cesm: [ "dst_a1SF", "dst_a2SF", "dst_a3SF"]
+
 
 SFSO2_net:
   colormap: "Oranges"

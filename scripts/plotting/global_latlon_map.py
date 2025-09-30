@@ -164,7 +164,7 @@ def global_latlon_map(adfobj):
 
         # Gather reference variable data
         odata = adfobj.data.load_reference_regrid_da(base_name, var)
-
+        
         if odata is None:
             dmsg = f"No regridded test file for {base_name} for variable `{var}`, global lat/lon mean plotting skipped."
             adfobj.debug_log(dmsg)
@@ -248,7 +248,6 @@ def global_latlon_map(adfobj):
                         mseasons[s] = mdata.sel(time=seasons[s]).mean(dim='time')
                         oseasons[s] = odata.sel(time=seasons[s]).mean(dim='time')
                     #End if
-
                     # difference: each entry should be (lat, lon)
                     dseasons[s] = mseasons[s] - oseasons[s]
 

@@ -89,7 +89,7 @@ diag_basic_info:
     obs_data_loc: /projects/NS9560K/diagnostics/ADF/obs/
 
     #Location where re-gridded and interpolated CAM climatology files are stored:
-    cam_regrid_loc: /projects/NS2345K-datalake/adagj/ADFout/regrid
+    cam_regrid_loc: /datalake/NS2345K/adagj/ADFout/regrid #/projects/NS2345K-datalake/adagj/ADFout/regrid
 
     #Overwrite CAM re-gridded files?
     #If false, or missing, then regridding will be skipped for regridded variables
@@ -98,7 +98,7 @@ diag_basic_info:
 
     #Location where diagnostic plots are stored:
     #cam_diag_plot_loc: /projects/NS9560K/www/diagnostics/noresm/mvertens/ADF/plots
-    cam_diag_plot_loc: /projects/NS2345K-datalake/www/diagnostics/ADF/adagj
+    cam_diag_plot_loc: /datalake/NS2345K/www/diagnostics/ADF/adagj #/projects/NS2345K-datalake/www/diagnostics/ADF/adagj
     #cam_diag_plot_loc: /projects/NS2345K-datalake/adagj/ADFout/plots
 
     #Location of ADF variable plotting defaults YAML file:
@@ -151,50 +151,62 @@ diag_cam_climo:
     cam_overwrite_climo: true
 
     #Name of CAM case (or CAM run name):
-    cam_case_name: n1850.ne16pg3_tn14.noresm3_0_alpha03c.noresm3_0_002_cam6_4_085.19_to_35yr_2deg_ppe_spinup.20250524
-    #nf1850_ne30pg3_ne30pg3_mtn14_fatesnocomp_leungdust_dev_20250513 
-    #n1850.ne30_tn14.hybrid_wavparam_fatessp.2.5a09.20250207
-    #n1850.ne30_tn14.hybrid_fatessp.20241219
-    #n1850.ne30pg3_tn14.noresm2_5_alpha08d.hybrid_fatessp.20241219
+    cam_case_name: n1850.ne16_tn14.noresm3_0_beta02-run2_yr001.ocnflx2.20250901
+    #n1850.ne3pg3_tn21.noresm3_0_beta02.20250901
+    #n1850.ne16_tn14.noresm3_0_beta02-run2_yr001.ocnflx1.80LE.20250902
+    #n1850.ne16_tn14.noresm3_0_beta02-run2_yr001.ocnflx2.20250901
+    #n1850.ne30_tn14.noresm3_0_beta01.camec_coare.20250807
+    #n1850.ne30_tn14.nor3_b01-noLU_yr101.20250729
     #N1850frc2_f09_tn14_20191001
     #N1850_f19_tn14_20190621
-    #n1850.ne16_tn14.15cores.hybrid_fatessp.2.0a.20250425
+    #n1850.ne16pg3_tn14.nor3_b01.20250731
+    # nhist.ne16pg3_tn14.noresm3_0_beta01_550dcs_5p0clubbc8_0p75dust.20250716
+    #n1850.ne30_tn14.noresm3_0_beta01.cam_energy_conserv.20250718
+    # n1850.ne16pg3_tn14.noresm3_0_beta01.20250701
+    #n1850.ne30_tn14.noresm3_0_alpha07.20250628.0001_0025
+    #n1850.ne16pg3_tn14.noresm3_0_alpha07.20250701.0001_0015
+    #n1850.ne30_tn14.noresm3_0_beta01.20250629.0001_0010
+    #n1850.ne16pg3_tn14.noresm3_0_beta01.20250701.0001_0015
+    #n1850.ne30_tn14.noresm3_0_beta01-FATES-noluh.20250630.0001_0010
+    #n1850.ne30_tn14.nor3_rc-b01.20250628.0001_0020
+    #n1850.ne30_tn14.coare.alpha03b
+    #ensamble_member.002002
+    #n1850.ne16pg3_tn14.noresm3_0_alpha03c.30yr_2deg_ppe_spinup.20250522 
+    #n1850.ne16pg3_tn14.noresm3_0_alpha03c.noresm3_0_002_cam6_4_085.19_to_35yr_2deg_ppe_spinup.20250524 
     #n1850.ne30_tn14.hybrid_fatessp.20241219
-    #nco2x4.ne30_tn14.hybrid_fatessp.ic50_lowsoic.20250303
-    #NCO2x4frc2_f09_tn14_20191008
-    #nco2x4.ne30_tn14.hybrid_fatessp.ic50_lowsoic.20250303
-    #nf2000_ne30pg3_ne30pg3_mtn14.fatessp_20250120
-    # n1850.ne30_tn14.hybrid_fatessp.20241219
-    #n1850.ne30_tn14.hybrid_wavparam_fatessp.20241226
-    #NSSP585frc2_f19_tn14_fram_release-noresm2.0.9_20241213
-    #n1850.ne30_tn14.hybrid_fatessp.20241204 #N1850frc2_f09_tn14_20191001 
-    #nf1850mam4_alpha08_ne30pg3_ne30pg3_mtn14_20241126 #n1850.ne30_tn14.hybrid_fatessp.20241125 #n1850.ne30_tn14.hybrid_fatessp.20241111 
+    #nf1850_ne30pg3_ne30pg3_mtn14_fatesnocomp_leungdust_dev_20250513 
     #Case nickname
     #NOTE: if nickname starts with '0' - nickname must be in quotes!
     # ie '026a' as opposed to 026a
     #If missing or left blank, will default to cam_case_name
-    case_nickname: ppe_control
+    case_nickname: 
+    #NorESM3dev_beta01_1x1
+    #NorESM2-LM
+    #
+    #NHIST_2x2_NorESM3_beta01
+    #NorESM3_beta01_energy_conserv
+    #member_0002
     #NorESM3_alpha02a_FATES-NOCOMP
 
     #NorESM2.5_alpha09.wavpar_20250207 
     #Location of CAM history (h0a) files:
     #Example test files
-    cam_hist_loc: /projects/NS9560K-datalake/noresm3/cases/${diag_cam_climo.cam_case_name}/atm/hist
+    cam_hist_loc: /datalake/NS9560K/noresm3/cases/${diag_cam_climo.cam_case_name}/atm/hist #/projects/NS9560K-datalake/noresm3/cases/${diag_cam_climo.cam_case_name}/atm/hist
+    #/projects/NS9560K-datalake/noresm3/cases/n1850.ne16pg3_tn14.noresm3_0_alpha03d.cloud_ppe/${diag_cam_climo.cam_case_name}/atm/hist
+    #/projects/NS9560K-datalake/noresm3/cases/${diag_cam_climo.cam_case_name}/atm/hist
     #/projects/NS9560K-datalake/oyvinds/cases/${diag_cam_climo.cam_case_name}/atm/hist
-    #/
     #/projects/NS9560K-datalake/mdeb/noresm2.0/${diag_cam_climo.cam_case_name}/atm/hist
     #Location of CAM climatologies (to be created and then used by this script)
-    cam_climo_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
+    cam_climo_loc: /datalake/NS2345K/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo #/projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
 
     #model year when time series files should start:
     #Note:  Leaving this entry blank will make time series
     #       start at earliest available year.
-    start_year: 19
-
+    start_year: 1
     #model year when time series files should end:
     #Note:  Leaving this entry blank will make time series
     #       end at latest available year.
-    end_year: 34
+    end_year: 14
 
     #Do time series files exist?
     #If True, then diagnostics assumes that model files are already time series.
@@ -205,14 +217,14 @@ diag_cam_climo:
     #Save interim time series files?
     #WARNING:  This can take up a significant amount of space,
     #          but will save processing time the next time
-    cam_ts_save: false
+    cam_ts_save: true
 
     #Overwrite time series files, if found?
     #If set to false, then time series creation will be skipped if files are found:
-    cam_overwrite_ts: true
+    cam_overwrite_ts: false
 
     #Location where time series files are (or will be) stored:
-    cam_ts_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
+    cam_ts_loc: /datalake/NS2345K/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries #/projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
 
 #-------------------------------------------------------------------------------------
 #This third set of variables provide info for the CAM baseline climatologies.
@@ -235,55 +247,48 @@ diag_cam_baseline_climo:
     cam_overwrite_climo: true
 
     #Name of CAM baseline case:
-    cam_case_name: n1850.ne30_tn14.rest-NOIIAJRARYF8485OC_20250506.3.0a03b.20250513
+    cam_case_name: n1850.ne16_tn14.noresm3_0_beta02-run2_yr001.20250829
+    #n1850.ne30_tn14.noresm3_0_beta01-noLU_650dcs_4p0clubbc8_0p5dust.20250708
+    #n1850.ne30_tn14.nor3_b01-noLU_yr101.20250729
+    #N1850frc2_f09_tn14_20191001
+    #N1850_f19_tn14_20190621
+    #n1850.ne30_tn14.noresm3_0_beta01-noLU_650dcs_4p0clubbc8_0p5dust.20250708
+    # n1850.ne30_tn14.noresm3_0_beta01.20250629
+    #n1850.ne30_tn14.rest-NOIIAJRARYF8485OC_20250506.3.0a03b.20250513
+    #n1850.ne30_tn14.hybrid_fatessp.20241219
     #nf1850_ne30pg3_ne30pg3_mtn14_mam4_20250522
- # n1850.ne30_tn14.hybrid_fatessp.alpha2.0a.20250430_init
-    #n1850.ne30_tn14.hybrid_wavparam_fatessp.20241226
-    #N1850frc2_f09_tn14_20191001
-    # n1850.ne30_tn14.hybrid_fates-nocomp.3.0a02.20250408
-    #n1850.ne30_tn14.hybrid_fates-nocomp.3.0a03.20250424
-    #N1850frc2_f09_tn14_20191001
-    #n1850.ne30_tn14.hybrid_fatessp.20241219
-    #N1850frc2_f09_tn14_20191001
-    #n1850.ne30_tn14.hybrid_fatessp.20241219
-    #N1850frc2_f09_tn14_20191001
-    #n1850.ne30_tn14.hybrid_fatessp.20241204
-    # n1850.ne30_tn14.hybrid_fatessp.20241204
-    #n1850.ne30_tn14.hybrid_wavparam_fatessp.20241226
-    #n1850.ne30_tn14.hybrid_fatessp.20241204
-    #n1850.ne30_tn14.hybrid_fatessp.20241204
-    #NSSP585frc2_f19_tn14_20191014
-    #n1850.ne30_tn14.hybrid_fatessp.20241111
-    # n1850.ne30_tn14.hybrid_fatessp.202401031
-    ## #n1850.ne30_tn14.hybrid.20240829 #
-
     #Baseline case nickname
     #NOTE: if nickname starts with '0' - nickname must be in quotes!
     # ie '026a' as opposed to 026a
     #If missing or left blank, will default to cam_case_name
-    case_nickname: noresm3_alpha3b
+    case_nickname: 
+    #NorESM3dev_beta01_1x1
+    #NorESM2-MM
+    #NorESM3_beta01_noLU_650dcs_4p0clubbc8_0p5dust
+    #noresm3_alpha03b_IC8485
     #n1850.ne30_tn14.rest-NOIIAJRARYF8485OC_20250506.3.0a03b.20250513
     # NorESM2.5_alpha09.wavpar_20241226
     #
     #Location of CAM baseline history (h0a) files:
     #Example test files
-    cam_hist_loc: /projects/NS9560K-datalake/noresm3/cases/${diag_cam_climo.cam_case_name}/atm/hist
-    #/projects/NS9560K-datalake/oyvinds/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
+    cam_hist_loc: /datalake/NS9560K/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist #/projects/NS9560K-datalake/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
     #/projects/NS9560K-datalake/noresm3/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
+    #/projects/NS9560K-datalake/oyvinds/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
     #/projects/NS9560K-datalake/noresm/cases/${diag_cam_baseline_climo.cam_case_name}/atm/hist
 
     #Location of baseline CAM climatologies:
-    cam_climo_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
+    cam_climo_loc: /datalake/NS2345K/adagj/ADFout/${diag_cam_baseline_climo.cam_case_name}/atm/climo #/projects/NS2345K-datalake/adagj/ADFout/${diag_cam_baseline_climo.cam_case_name}/atm/climo
+    #/projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
 
     #model year when time series files should start:
     #Note:  Leaving this entry blank will make time series
     #       start at earliest available year.
-    start_year: 19
+    start_year: 1
 
     #model year when time series files should end:
     #Note:  Leaving this entry blank will make time series
     #       end at latest available year.
-    end_year: 34
+    end_year: 14
 
     #Do time series files need to be generated?
     #If True, then diagnostics assumes that model files are already time series.
@@ -293,15 +298,16 @@ diag_cam_baseline_climo:
 
     #Save interim time series files for baseline run?
     #WARNING:  This can take up a significant amount of space:
-    cam_ts_save: false
+    cam_ts_save: true
 
     #Overwrite baseline time series files, if found?
     #If set to false, then time series creation will be skipped if files are found:
-    cam_overwrite_ts: true
+    cam_overwrite_ts: false
 
     #Location where time series files are (or will be) stored:
-    cam_ts_loc: /projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/tseries
-
+    cam_ts_loc: /datalake/NS2345K/adagj/ADFout/${diag_cam_baseline_climo.cam_case_name}/atm/tseries #/projects/NS2345K-datalake/adagj/ADFout/${diag_cam_baseline_climo.cam_case_name}/atm/tseries
+    #/projects/NS2345K-datalake/adagj/ADFout/${diag_cam_climo.cam_case_name}/atm/climo
+    
 #-------------------------------------------------------------------------------------
 #This fourth set of variables provides settings for calling the Climate Variability
 #-------------------------------------------------------------------------------------
@@ -360,15 +366,15 @@ analysis_scripts:
 #List of plotting scripts being used.
 #These scripts must be located in "scripts/plotting":
 plotting_scripts:
-   # - global_mean_timeseries
-    - global_latlon_map
-    - zonal_mean
-    - meridional_mean
+    #- global_mean_timeseries
+     - global_latlon_map
+     - zonal_mean
+     - meridional_mean
    # - polar_map
    # - global_latlon_vect_map
-   # - cam_taylor_diagram
+     - cam_taylor_diagram
    # - enso_comparison_plots
-   # - qbo
+     - qbo
    #- tape_recorder
    #- tem #To plot TEM, please un-comment fill-out the "tem_info" section below
 
@@ -376,6 +382,12 @@ plotting_scripts:
 #If CVDP is to be run PSL, TREFHT, TS and PRECT (or PRECC and PRECL) should be listed
 diag_var_list:
     - AODVIS
+    - sum_BC
+    - sum_DST
+    - sum_OM
+    - sum_SO4
+    - sum_SOA
+    - sum_SS
     - cb_SULFATE
     - cb_isoprene
     - cb_monoterp
@@ -388,34 +400,34 @@ diag_var_list:
     - cb_SALT
     - cb_OA
     - cb_SO2
-    - DMS
-    - SO2
-    - H2O2
-    - H2SO4
-    - BC
-    - POM
-    - SO4
-    - SOA
-    - DUST
-    - SeaSalt
-    - OM
+    # - DMS
+    # - SO2
+    # - H2O2
+    # - H2SO4
+    # # - BC
+    # # - POM
+    # # - SO4
+    # # - SOA
+    # # - DUST
+    # # - SeaSalt
+    # # - OM
     - SFmonoterp
     - SFisoprene
     - SFSS
     - SFDUST
     - SFSOA
-    - SFSO4
+    # - SFSO4
     - SFSO2_net
-    - SFOM
+    # - SFOM
     - SFBC
     - SFDMS
-    - SFH2O2
-    - SFH2SO4
-    - D550_BC
-    - D550_DU
-    - D550_POM
-    - D550_SO4
-    - D550_SS
+    # - SFH2O2
+    # - SFH2SO4
+    # - D550_BC
+    # - D550_DU
+    # - D550_POM
+    # - D550_SO4
+    # - D550_SS
     - CLDHGH
     - CLDICE
     - CLDLIQ
